@@ -1,0 +1,5 @@
+# dependencies
+/server-side/node_modules
+/server-side/.env
+/server-side/ab.exe
+/react-ecom/node_modules
