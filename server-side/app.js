@@ -9,7 +9,6 @@ const jwtStrategy = require("./config/passport");
 const db = require('./db');
 // ROUTES
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const productsRouter = require('./routes/products');
 
@@ -40,7 +39,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/product', passport.authenticate('jwt', { session: false }), productsRouter);
 
@@ -50,15 +48,11 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-// TODO: send json error object
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
     const error = {
         message: err.message,
         status: err.status || 500
     };
-    // res.locals.message = err.message;
-    // res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
     res.status(error.status);
