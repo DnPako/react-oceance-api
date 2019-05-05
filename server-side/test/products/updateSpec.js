@@ -5,7 +5,7 @@ const app = require('../../bin/www');
 const db = require('../../db');
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE1NTY5ODU0Mzd9.sY9cFOdYRL507wU1nRdMd1--GUWXZDO46vvVplKy1dI';
 
-describe('Update product', () => {
+describe('Update product/update/:id', () => {
     before((done) => {
         db.connect()
             .then(() => done())
@@ -18,7 +18,7 @@ describe('Update product', () => {
             .catch((error) => done(error))
     });
 
-    it('Updates a product and return it', async () => {
+    it('Updates a product and returns it', async () => {
         const {body} = await request(app).put('/product/update/5ccdced103abd72e18eec083')
             .set('Authorization', `bearer ${token}`)
             .send({

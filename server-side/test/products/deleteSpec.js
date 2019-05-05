@@ -5,7 +5,7 @@ const app = require('../../bin/www');
 const db = require('../../db');
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE1NTY5ODU0Mzd9.sY9cFOdYRL507wU1nRdMd1--GUWXZDO46vvVplKy1dI';
 
-describe('Delete product', () => {
+describe('Delete product/delete/:id', () => {
     before((done) => {
         db.connect()
             .then(() => done())
@@ -18,7 +18,7 @@ describe('Delete product', () => {
             .catch((error) => done(error))
     });
 
-    it('Delete /delete/:id', async () => {
+    it('Delete a product', async () => {
         const {body} = await request(app).del('/product/delete/5ccdced103abd72e18eec080')
             .set('Authorization', `bearer ${token}`);
 

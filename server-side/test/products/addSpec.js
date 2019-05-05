@@ -5,7 +5,7 @@ const app = require('../../bin/www');
 const db = require('../../db');
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE1NTY5ODU0Mzd9.sY9cFOdYRL507wU1nRdMd1--GUWXZDO46vvVplKy1dI';
 
-describe('Add product to database', () => {
+describe('Add product/add', () => {
     before((done) => {
         db.connect()
             .then(() => done())
@@ -18,7 +18,7 @@ describe('Add product to database', () => {
             .catch((error) => done(error))
     });
 
-    it('Adds a product and return it', async () => {
+    it('Adds a product and returns it', async () => {
 
         const {body} = await request(app).post('/product/add')
             .set('Authorization', `bearer ${token}`)
