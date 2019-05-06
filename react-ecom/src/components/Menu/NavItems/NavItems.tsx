@@ -12,7 +12,7 @@ class NavItems extends PureComponent<INavItemsProps> {
 
     render() {
         return (
-            <div>
+            <div className={classes.NavItems}>
                 <NavItem link="/authenticate">Authenticate</NavItem>
                 <NavItem link="/products">Products</NavItem>
             </div>
