@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {Component, lazy, Suspense} from 'react';
+import {Route, Switch, withRouter} from "react-router-dom";
 
 import Layout from './components/Layout/Layout';
 
-function App() {
-    return (
-        <div className="App">
+const Auth = lazy(() => import('./components/Auth/Auth'));
+
+
+class App extends Component {
+    render() {
+        return (
             <Layout>
-                My Content here
+                <Suspense fallback={<h2>Loading...</h2>}>
+                    <Route path='/authenticate'><Auth/></Route>
+                </Suspense>
             </Layout>
-        </div>
-    );
+        );
+    }
 }
+
 
 export default App;

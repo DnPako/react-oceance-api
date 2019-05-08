@@ -1,0 +1,23 @@
+.Auth {
+    margin: 20px auto;
+    width: 500px;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.Auth form button {
+    display: block;
+    margin: 1em auto;
+}
+
+.Auth h5 {
+    cursor: pointer;
+    float: right;
+    margin: 0 0.4em 1em 0;
+}
+
+.Auth h5:hover {
+    color: #159685;
+}
