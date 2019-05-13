@@ -1,16 +1,20 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
 
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import {copyObject, checkInputValidation, isAllInputsValidated} from "../../utils";
 import {InputConfigType} from '../UI/Input/inputTypes';
-
 import formOptions from "./formOptions";
+import * as actions from '../../store/actions/auth';
+import {IAuthenticationData, AuthActionType} from '../../store/types';
+import {ThunkDispatch} from "redux-thunk";
+
 
 const classes = require('./Auth.module.css');
 
 interface IAuthProps {
-
+    onAuth: (data: IAuthenticationData, isSignUp: boolean) => void
 }
 
 interface IAuthState {
@@ -77,6 +81,13 @@ class Auth extends React.PureComponent<IAuthProps, IAuthState> {
         });
     };
 
+    submitAccount = (e: any) => {
+        e.preventDefault();
+        const {email, password} = this.state.formOptions;
+
+        this.props.onAuth({email: email.value, password: password.value}, this.state.isSignUp);
+    };
+
     renderInputs = () => {
         let inputs = [];
 
@@ -103,8 +114,7 @@ class Auth extends React.PureComponent<IAuthProps, IAuthState> {
                 <h5 onClick={this.switchAuthMode}>
                     Sign {this.state.isSignUp ? "in" : "up"}
                 </h5>
-                {/*<form onSubmit={this.submitAccount}>*/}
-                <form>
+                <form onSubmit={this.submitAccount}>
                     {this.renderInputs()}
                     <Button
                         buttonType="Success"
@@ -118,4 +128,10 @@ class Auth extends React.PureComponent<IAuthProps, IAuthState> {
     }
 }
 
-export default Auth;
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, void, AuthActionType>) => {
+    return {
+        onAuth: (data: IAuthenticationData, isSignUp: boolean) => dispatch(actions.authenticate(data, isSignUp))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);
