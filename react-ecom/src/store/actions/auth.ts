@@ -1,7 +1,7 @@
 import * as actionTypes from "./actions";
 import {ActionCreator, Dispatch} from "redux";
 import axios from '../../axios-config';
-import {ISuccessAction, IErrorAction, IAuthenticationData} from '../types';
+import {ISuccessAction, IErrorAction, IAuthenticationData, Error} from '../types';
 
 const URL_SIGNUP = '/auth/register';
 const URL_SIGNIN = '/auth/login';
@@ -12,7 +12,6 @@ export const authStart = () => {
     }
 };
 
-// TODO: ADD TYPE TO DATA
 export const authSuccess: ActionCreator<ISuccessAction> = (token: string) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
@@ -20,8 +19,7 @@ export const authSuccess: ActionCreator<ISuccessAction> = (token: string) => {
     }
 };
 
-// TODO: ADD TYPE TO ERROR
-export const authFail: ActionCreator<IErrorAction> = (error: any) => {
+export const authFail: ActionCreator<IErrorAction> = (error: Error) => {
     return {
         type: actionTypes.AUTH_FAIL,
         error
@@ -65,16 +63,15 @@ export const authenticate = (dataToSend: IAuthenticationData, isSignUp: boolean)
 
     return async (dispatch: Dispatch<any>) => {
         dispatch(authStart());
-
         try {
             let {data} = await axios.post(URL, dataToSend);
-            console.log(data);
             data = '';
 
             dispatch(authSuccess(data));
             dispatch(logoutAfterDateExpires());
         } catch (error) {
-            dispatch(authFail(error));
+            const receivedError = <Error>error.response.data.error;
+            dispatch(authFail(receivedError));
         }
     }
 };

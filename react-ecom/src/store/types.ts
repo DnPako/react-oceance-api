@@ -16,9 +16,14 @@ export interface ISuccessAction extends Action {
     token: string;
 }
 
+export type Error = {
+    message: string;
+    status: number;
+}
+
 export interface IErrorAction extends Action {
     type: string;
-    error: any;
+    error: Error;
 }
 
 export type AuthActionType = ISuccessAction | IErrorAction

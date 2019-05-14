@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actions';
-import {AuthActionType, IAuthState} from '../types';
+import {AuthActionType, IAuthState, Error} from '../types';
 import {Reducer} from "redux";
 
 const initialState: IAuthState = {
@@ -17,8 +17,7 @@ authStart = (state) => {
     }
 };
 
-// TODO: Figure out error type
-let authFail: (state: IAuthState, {error}: any) => IAuthState;
+let authFail: (state: IAuthState, error: Error) => IAuthState;
 authFail = (state, error) => {
     return {
         ...state,
@@ -51,7 +50,7 @@ const reducer: Reducer<IAuthState> = (state: IAuthState = initialState, action) 
         case actionTypes.AUTH_START:
             return authStart(state);
         case actionTypes.AUTH_FAIL:
-            return authFail(state, action);
+            return authFail(state, action.error);
         case actionTypes.AUTH_SUCCESS:
             return authSuccess(state, action.token);
         case actionTypes.AUTH_LOGOUT:
