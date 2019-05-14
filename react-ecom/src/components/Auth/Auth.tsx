@@ -9,7 +9,7 @@ import formOptions from "./formOptions";
 import * as actions from '../../store/actions/auth';
 import {IAuthenticationData, AuthActionType} from '../../store/types';
 import {ThunkDispatch} from "redux-thunk";
-
+import ErrorHandler from '../../HOC/ErrorHandler';
 
 const classes = require('./Auth.module.css');
 
@@ -24,7 +24,6 @@ interface IAuthState {
 }
 
 class Auth extends React.PureComponent<IAuthProps, IAuthState> {
-    // controls: copyObject(formOptions),
     state = {
         formIsValid: false,
         isSignUp: true,
@@ -128,10 +127,17 @@ class Auth extends React.PureComponent<IAuthProps, IAuthState> {
     }
 }
 
+// @ts-ignore
+const mapStateToProps = ({auth: {error}}) => {
+    return {
+        error
+    };
+};
+
 const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, void, AuthActionType>) => {
     return {
         onAuth: (data: IAuthenticationData, isSignUp: boolean) => dispatch(actions.authenticate(data, isSignUp))
     };
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandler(Auth));
