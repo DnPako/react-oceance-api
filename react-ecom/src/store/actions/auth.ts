@@ -55,7 +55,6 @@ export const logoutAfterDateExpires = (expiresIn: number = actionTypes.EXPIRATIO
 };
 
 // Can be register or login
-// TODO: ADD TOKEN
 export const authenticate = (dataToSend: IAuthenticationData, isSignUp: boolean) => {
     let URL = URL_SIGNIN;
 
@@ -64,10 +63,11 @@ export const authenticate = (dataToSend: IAuthenticationData, isSignUp: boolean)
     return async (dispatch: Dispatch<any>) => {
         dispatch(authStart());
         try {
-            let {data} = await axios.post(URL, dataToSend);
-            data = '';
+            const {data} = await axios.post(URL, dataToSend);
 
-            dispatch(authSuccess(data));
+            saveToken(data.token);
+
+            dispatch(authSuccess(data.token));
             dispatch(logoutAfterDateExpires());
         } catch (error) {
             const receivedError = <Error>error.response.data.error;
