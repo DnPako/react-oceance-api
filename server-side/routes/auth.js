@@ -23,14 +23,9 @@ const addUser = async (p_user, res, next) => {
 };
 
 const sendToken = (p_user, res) => {
-    const token = JWT.sign({email: p_user.email}, JWT_SECRET);
-    res.cookie('access_token', token, {
-        maxAge: 3600,
-        httpOnly: true
-        // secure: true
-    });
+    const token = JWT.sign({email: p_user.email}, JWT_SECRET, {expiresIn: '24h'});
 
-    res.status(200).end();
+    res.status(200).json({token}).end();
 };
 
 const registerUserAndSendToken = async (p_user, res, next) => {
